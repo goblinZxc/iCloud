@@ -1,0 +1,85 @@
+<!doctype html>
+<html ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>iCloud</title>
+	<meta name="renderer" content="webkit"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<link rel="stylesheet" href="css/index.css">
+	<meta name="viewport" content="width = device-width,initial-scale = 1.0,maximum-scale = 1.0,user-scalable = 0"/>
+	<script src="js/angular.js"></script>
+</head>
+<body ng-controller="ctrl" ng-cloak>
+
+<div class="mask" ng-click="maskFlag=false" ng-show="maskFlag"></div>
+	
+<div class="left">
+	<div class="tixing">
+		<h1>iCloud <span>提醒事项</span></h1>
+		<b ng-click="add()" class="iconfont">&#xe608;</b>
+	</div>
+	<div class="list-box">
+		<ul class="list">
+			<li ng-style="{background:$index==index?'#2C2C2A':''}" ng-click="fn($index)" ng-repeat="v in data"><span ng-style="{borderColor:$index==index?'#2C2C2A':''}" ><b style="background:{{v.color}}"></b></span> {{v.title}} <i class="iconfont">&#xe61d;</i></li>
+		</ul>
+	</div>
+</div>
+
+<div class="right">
+	<div class="search">
+		<span class="iconfont">&#xe67a;</span>
+		<!-- <b>搜索所有提醒</b> -->
+		<input type="text" placeholder="搜索所有提醒">
+	</div>
+	<div class="main">
+		<div class="top">
+			<span ng-style="{color:data[index].color}">{{data[index].title}}</span>
+			<div class="xuanxiang">
+				<span ng-click="xuanxiang()">选项</span>
+				<div ng-class="{active:xuanf}" class="yanse-box" ng-show="maskFlag">
+					<div class="yanse">
+						<input type="text" ng-style="{color:temp.color}" ng-model="temp.title" value="{{temp.title}}">
+					</div>
+					<div class="color">
+						<span>列表颜色</span>
+						<ul>
+							<li ng-click="chageColor(v)" ng-style="{backgroundColor:v,borderColor:temp.color==v?v:'white'}" ng-repeat="v in color"></li>
+						</ul>
+					</div>
+					<div class="del">
+						<span ng-click="del()">删除</span>
+						<b ng-click="wancheng()">完成</b>
+						<strong></strong>
+						<i ng-click="maskFlag=false">取消</i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bot">
+			<div class="wancheng item">
+				<!-- 已完成 -->
+				<span ng-click="twof=!twof">已完成：{{(data[index].list | filter:{'done':'true'}).length }}项</span>
+				<ul ng-class="{active:twof}" class="two ht">
+					<li ng-blur="text($event,v)" contenteditable=true ng-repeat="v in data[index].list | filter:{done:true}"><span contenteditable=false ng-click="v.done=false" ng-style="{backgroundColor:data[index].color,borderColor:data[index].color}" class="quan2"></span> {{v.t}}</li>
+				</ul>
+				<span ng-click="twof=!twof">未完成：{{(data[index].list | filter:{'done':'false'}).length }}项</span>
+				<ul ng-class="{active:twof}" class="two">
+					<li ng-blur="text($event,v)" contenteditable=true ng-repeat="v in data[index].list | filter:{done:false}"><span contenteditable=false ng-click="v.done=true" ng-style="{borderColor:data[index].color}" class="quan2"></span>{{v.t}}</li>
+				</ul>
+			</div>
+			<div ng-click="tianjia()" class="new item">
+				新项目...
+			</div>
+			<ul ng-class="{active:twof}" class="two2">
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/touch-0.2.14.min.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
